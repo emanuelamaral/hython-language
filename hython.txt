@@ -1,0 +1,49 @@
+actors = {
+    recepctionist
+}
+
+cases = {
+    SchedulePatientAppointment,
+    SchedulePatientHospitalAdmission,
+    PatientRegistration,
+    FileInsuranceFormsClaims,
+    FileMedicalReports,
+    PatientHospitalAdmission,
+    InpatientHospitalAdmission,
+    OutpatientHospitalAdmission,
+    BedAllotment
+}
+
+<package> HospitalReception
+    <simple> <actor> recepctionist <case> SchedulePatientAppointment />
+    <simple> <actor> recepctionist <case> SchedulePatientHospitalAdmission />
+    <simple> <actor> recepctionist <case> PatientRegistration />
+    <simple> <actor> recepctionist <case> PatientHospitalAdmission />
+    <simple> <actor> recepctionist <case> FileInsuranceFormsClaims />
+    <simple> <actor> recepctionist <case> FileMedicalReports />
+    <extends> <case> PatientRegistration <case> SchedulePatientAppointment, SchedulePatientHospitalAdmission />
+    <include> <case> PatientHospitalAdmission <case> PatientRegistration />
+    <inherit> <case> OutpatientHospitalAdmission <case> PatientHospitalAdmission />
+    <inherit> <case> InpatientHospitalAdmission <case> PatientHospitalAdmission />
+    <include> <case> InpatientHospitalAdmission <case> BedAllotment />
+
+
+actors = {
+    cliente,
+    tecnico,
+    banco
+}
+
+cases = {
+    checarSaldo,
+    depositar,
+    sacar,
+    transferir,
+    manutencao,
+    reparo
+}
+
+<package> <sistemaCaixaEletronico
+    <simple> <actor> cliente <case> checarSaldo, depositar, sacar, transferir />
+    <simple> <actor> tecnico <case> manutencao, reparo />
+    <simple> <actor> cliente <case> checarSaldo, depositar, sacar, transferir, manutencao, reparo />
