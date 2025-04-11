@@ -27,23 +27,57 @@ cases = {
     <inherit> <case> InpatientHospitalAdmission <case> PatientHospitalAdmission />
     <include> <case> InpatientHospitalAdmission <case> BedAllotment />
 
+############################################
 
 actors = {
-    cliente,
-    tecnico,
-    banco
+    Driver,
+    Passenger,
+    TrafficController
 }
 
 cases = {
-    checarSaldo,
-    depositar,
-    sacar,
-    transferir,
-    manutencao,
-    reparo
+    RequestRide,
+    ShareLocation,
+    ProcessPayment,
+    NavigateRoute,
+    EmergencyStop,
+    AutonomousDriving,
+    ManualDriving
 }
 
-<package> <sistemaCaixaEletronico
-    <simple> <actor> cliente <case> checarSaldo, depositar, sacar, transferir />
-    <simple> <actor> tecnico <case> manutencao, reparo />
-    <simple> <actor> cliente <case> checarSaldo, depositar, sacar, transferir, manutencao, reparo />
+<package> RideSharingSystem
+    <simple> <actor> Driver <case> NavigateRoute />
+    <include> <case> RequestRide <case> ShareLocation />
+    <extends> <case> AutonomousDriving <case> NavigateRoute />
+    <inherit> <case> ManualDriving <case> NavigateRoute />
+    <depends> <component> GPSModule <component> PaymentProcessor />
+    <realizes> <interface> SafetyProtocol <class> BrakingSystem />
+    <associates> <actor> TrafficController <case> EmergencyStop />
+
+
+#####################################################
+actors = {
+    Customer,
+    Admin
+}
+
+cases = {
+    BrowseProducts,
+    AddToCart,
+    PlaceOrder,
+    ProcessPayment,
+    TrackShipment,
+    ManageInventory,
+    ApplyDiscount,
+    InternationalOrder,
+    GuestCheckout
+}
+
+<package> ECommerceSystem
+    <simple> <actor> Customer <case> BrowseProducts />
+    <simple> <actor> Customer <case> AddToCart />
+    <include> <case> PlaceOrder <case> AddToCart <case> ProcessPayment />
+    <extends> <case> InternationalOrder <case> PlaceOrder />
+    <inherit> <case> GuestCheckout <case> PlaceOrder />
+    <simple> <actor> Admin <case> ManageInventory />
+    <associates> <class> ShoppingCart <class> Product />

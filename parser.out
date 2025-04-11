@@ -15,35 +15,49 @@ Rule 9     cases -> IDENTIFIER
 Rule 10    relations -> PACKAGE IDENTIFIER relation_list
 Rule 11    relation_list -> relation_list relation
 Rule 12    relation_list -> relation
-Rule 13    relation -> EXTENDS CASE IDENTIFIER CASE identifier_list SLASH GT
-Rule 14    relation -> INCLUDE CASE IDENTIFIER CASE identifier_list SLASH GT
-Rule 15    relation -> INHERIT CASE IDENTIFIER CASE identifier_list SLASH GT
-Rule 16    relation -> SIMPLE CASE IDENTIFIER CASE identifier_list SLASH GT
-Rule 17    relation -> EXTENDS ACTOR IDENTIFIER CASE identifier_list SLASH GT
-Rule 18    relation -> INCLUDE ACTOR IDENTIFIER CASE identifier_list SLASH GT
-Rule 19    relation -> INHERIT ACTOR IDENTIFIER CASE identifier_list SLASH GT
-Rule 20    relation -> SIMPLE ACTOR IDENTIFIER CASE identifier_list SLASH GT
-Rule 21    identifier_list -> identifier_list COMMA IDENTIFIER
-Rule 22    identifier_list -> IDENTIFIER
+Rule 13    relation -> relation_type source target_participants SLASH GT
+Rule 14    source -> element_type IDENTIFIER
+Rule 15    target_participants -> target_participants element_type IDENTIFIER
+Rule 16    target_participants -> element_type IDENTIFIER
+Rule 17    element_type -> CASE
+Rule 18    element_type -> ACTOR
+Rule 19    element_type -> CLASS
+Rule 20    element_type -> COMPONENT
+Rule 21    element_type -> INTERFACE
+Rule 22    relation_type -> EXTENDS
+Rule 23    relation_type -> INCLUDE
+Rule 24    relation_type -> INHERIT
+Rule 25    relation_type -> SIMPLE
+Rule 26    relation_type -> USES
+Rule 27    relation_type -> REALIZES
+Rule 28    relation_type -> ASSOCIATES
+Rule 29    relation_type -> DEPENDS
 
 Terminals, with rules where they appear
 
-ACTOR                : 17 18 19 20
+ACTOR                : 18
 ACTORS               : 4
-CASE                 : 13 13 14 14 15 15 16 16 17 18 19 20
+ASSOCIATES           : 28
+CASE                 : 17
 CASES                : 5
-COMMA                : 6 8 21
+CLASS                : 19
+COMMA                : 6 8
+COMPONENT            : 20
+DEPENDS              : 29
 EQUALS               : 4 5
-EXTENDS              : 13 17
-GT                   : 13 14 15 16 17 18 19 20
-IDENTIFIER           : 6 7 8 9 10 13 14 15 16 17 18 19 20 21 22
-INCLUDE              : 14 18
-INHERIT              : 15 19
+EXTENDS              : 22
+GT                   : 13
+IDENTIFIER           : 6 7 8 9 10 14 15 16
+INCLUDE              : 23
+INHERIT              : 24
+INTERFACE            : 21
 LBRACE               : 4 5
 PACKAGE              : 10
 RBRACE               : 4 5
-SIMPLE               : 16 20
-SLASH                : 13 14 15 16 17 18 19 20
+REALIZES             : 27
+SIMPLE               : 25
+SLASH                : 13
+USES                 : 26
 error                : 
 
 Nonterminals, with rules where they appear
@@ -52,11 +66,14 @@ actors               : 4 6
 cases                : 5 8
 definition           : 2 3
 definitions          : 1 2
-identifier_list      : 13 14 15 16 17 18 19 20 21
+element_type         : 14 15 16
 program              : 0
 relation             : 11 12
 relation_list        : 10 11
+relation_type        : 13
 relations            : 1
+source               : 13
+target_participants  : 13 15
 
 Parsing method: LALR
 
@@ -162,22 +179,28 @@ state 11
     (10) relations -> PACKAGE IDENTIFIER . relation_list
     (11) relation_list -> . relation_list relation
     (12) relation_list -> . relation
-    (13) relation -> . EXTENDS CASE IDENTIFIER CASE identifier_list SLASH GT
-    (14) relation -> . INCLUDE CASE IDENTIFIER CASE identifier_list SLASH GT
-    (15) relation -> . INHERIT CASE IDENTIFIER CASE identifier_list SLASH GT
-    (16) relation -> . SIMPLE CASE IDENTIFIER CASE identifier_list SLASH GT
-    (17) relation -> . EXTENDS ACTOR IDENTIFIER CASE identifier_list SLASH GT
-    (18) relation -> . INCLUDE ACTOR IDENTIFIER CASE identifier_list SLASH GT
-    (19) relation -> . INHERIT ACTOR IDENTIFIER CASE identifier_list SLASH GT
-    (20) relation -> . SIMPLE ACTOR IDENTIFIER CASE identifier_list SLASH GT
+    (13) relation -> . relation_type source target_participants SLASH GT
+    (22) relation_type -> . EXTENDS
+    (23) relation_type -> . INCLUDE
+    (24) relation_type -> . INHERIT
+    (25) relation_type -> . SIMPLE
+    (26) relation_type -> . USES
+    (27) relation_type -> . REALIZES
+    (28) relation_type -> . ASSOCIATES
+    (29) relation_type -> . DEPENDS
 
-    EXTENDS         shift and go to state 16
-    INCLUDE         shift and go to state 17
-    INHERIT         shift and go to state 18
-    SIMPLE          shift and go to state 19
+    EXTENDS         shift and go to state 17
+    INCLUDE         shift and go to state 18
+    INHERIT         shift and go to state 19
+    SIMPLE          shift and go to state 20
+    USES            shift and go to state 21
+    REALIZES        shift and go to state 22
+    ASSOCIATES      shift and go to state 23
+    DEPENDS         shift and go to state 24
 
     relation_list                  shift and go to state 14
     relation                       shift and go to state 15
+    relation_type                  shift and go to state 16
 
 state 12
 
@@ -185,9 +208,9 @@ state 12
     (6) actors -> . actors COMMA IDENTIFIER
     (7) actors -> . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 21
+    IDENTIFIER      shift and go to state 26
 
-    actors                         shift and go to state 20
+    actors                         shift and go to state 25
 
 state 13
 
@@ -195,30 +218,36 @@ state 13
     (8) cases -> . cases COMMA IDENTIFIER
     (9) cases -> . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 23
+    IDENTIFIER      shift and go to state 28
 
-    cases                          shift and go to state 22
+    cases                          shift and go to state 27
 
 state 14
 
     (10) relations -> PACKAGE IDENTIFIER relation_list .
     (11) relation_list -> relation_list . relation
-    (13) relation -> . EXTENDS CASE IDENTIFIER CASE identifier_list SLASH GT
-    (14) relation -> . INCLUDE CASE IDENTIFIER CASE identifier_list SLASH GT
-    (15) relation -> . INHERIT CASE IDENTIFIER CASE identifier_list SLASH GT
-    (16) relation -> . SIMPLE CASE IDENTIFIER CASE identifier_list SLASH GT
-    (17) relation -> . EXTENDS ACTOR IDENTIFIER CASE identifier_list SLASH GT
-    (18) relation -> . INCLUDE ACTOR IDENTIFIER CASE identifier_list SLASH GT
-    (19) relation -> . INHERIT ACTOR IDENTIFIER CASE identifier_list SLASH GT
-    (20) relation -> . SIMPLE ACTOR IDENTIFIER CASE identifier_list SLASH GT
+    (13) relation -> . relation_type source target_participants SLASH GT
+    (22) relation_type -> . EXTENDS
+    (23) relation_type -> . INCLUDE
+    (24) relation_type -> . INHERIT
+    (25) relation_type -> . SIMPLE
+    (26) relation_type -> . USES
+    (27) relation_type -> . REALIZES
+    (28) relation_type -> . ASSOCIATES
+    (29) relation_type -> . DEPENDS
 
     $end            reduce using rule 10 (relations -> PACKAGE IDENTIFIER relation_list .)
-    EXTENDS         shift and go to state 16
-    INCLUDE         shift and go to state 17
-    INHERIT         shift and go to state 18
-    SIMPLE          shift and go to state 19
+    EXTENDS         shift and go to state 17
+    INCLUDE         shift and go to state 18
+    INHERIT         shift and go to state 19
+    SIMPLE          shift and go to state 20
+    USES            shift and go to state 21
+    REALIZES        shift and go to state 22
+    ASSOCIATES      shift and go to state 23
+    DEPENDS         shift and go to state 24
 
-    relation                       shift and go to state 24
+    relation                       shift and go to state 29
+    relation_type                  shift and go to state 16
 
 state 15
 
@@ -228,55 +257,130 @@ state 15
     INCLUDE         reduce using rule 12 (relation_list -> relation .)
     INHERIT         reduce using rule 12 (relation_list -> relation .)
     SIMPLE          reduce using rule 12 (relation_list -> relation .)
+    USES            reduce using rule 12 (relation_list -> relation .)
+    REALIZES        reduce using rule 12 (relation_list -> relation .)
+    ASSOCIATES      reduce using rule 12 (relation_list -> relation .)
+    DEPENDS         reduce using rule 12 (relation_list -> relation .)
     $end            reduce using rule 12 (relation_list -> relation .)
 
 
 state 16
 
-    (13) relation -> EXTENDS . CASE IDENTIFIER CASE identifier_list SLASH GT
-    (17) relation -> EXTENDS . ACTOR IDENTIFIER CASE identifier_list SLASH GT
+    (13) relation -> relation_type . source target_participants SLASH GT
+    (14) source -> . element_type IDENTIFIER
+    (17) element_type -> . CASE
+    (18) element_type -> . ACTOR
+    (19) element_type -> . CLASS
+    (20) element_type -> . COMPONENT
+    (21) element_type -> . INTERFACE
 
-    CASE            shift and go to state 25
-    ACTOR           shift and go to state 26
+    CASE            shift and go to state 32
+    ACTOR           shift and go to state 33
+    CLASS           shift and go to state 34
+    COMPONENT       shift and go to state 35
+    INTERFACE       shift and go to state 36
 
+    source                         shift and go to state 30
+    element_type                   shift and go to state 31
 
 state 17
 
-    (14) relation -> INCLUDE . CASE IDENTIFIER CASE identifier_list SLASH GT
-    (18) relation -> INCLUDE . ACTOR IDENTIFIER CASE identifier_list SLASH GT
+    (22) relation_type -> EXTENDS .
 
-    CASE            shift and go to state 27
-    ACTOR           shift and go to state 28
+    CASE            reduce using rule 22 (relation_type -> EXTENDS .)
+    ACTOR           reduce using rule 22 (relation_type -> EXTENDS .)
+    CLASS           reduce using rule 22 (relation_type -> EXTENDS .)
+    COMPONENT       reduce using rule 22 (relation_type -> EXTENDS .)
+    INTERFACE       reduce using rule 22 (relation_type -> EXTENDS .)
 
 
 state 18
 
-    (15) relation -> INHERIT . CASE IDENTIFIER CASE identifier_list SLASH GT
-    (19) relation -> INHERIT . ACTOR IDENTIFIER CASE identifier_list SLASH GT
+    (23) relation_type -> INCLUDE .
 
-    CASE            shift and go to state 29
-    ACTOR           shift and go to state 30
+    CASE            reduce using rule 23 (relation_type -> INCLUDE .)
+    ACTOR           reduce using rule 23 (relation_type -> INCLUDE .)
+    CLASS           reduce using rule 23 (relation_type -> INCLUDE .)
+    COMPONENT       reduce using rule 23 (relation_type -> INCLUDE .)
+    INTERFACE       reduce using rule 23 (relation_type -> INCLUDE .)
 
 
 state 19
 
-    (16) relation -> SIMPLE . CASE IDENTIFIER CASE identifier_list SLASH GT
-    (20) relation -> SIMPLE . ACTOR IDENTIFIER CASE identifier_list SLASH GT
+    (24) relation_type -> INHERIT .
 
-    CASE            shift and go to state 31
-    ACTOR           shift and go to state 32
+    CASE            reduce using rule 24 (relation_type -> INHERIT .)
+    ACTOR           reduce using rule 24 (relation_type -> INHERIT .)
+    CLASS           reduce using rule 24 (relation_type -> INHERIT .)
+    COMPONENT       reduce using rule 24 (relation_type -> INHERIT .)
+    INTERFACE       reduce using rule 24 (relation_type -> INHERIT .)
 
 
 state 20
 
-    (4) definition -> ACTORS EQUALS LBRACE actors . RBRACE
-    (6) actors -> actors . COMMA IDENTIFIER
+    (25) relation_type -> SIMPLE .
 
-    RBRACE          shift and go to state 33
-    COMMA           shift and go to state 34
+    CASE            reduce using rule 25 (relation_type -> SIMPLE .)
+    ACTOR           reduce using rule 25 (relation_type -> SIMPLE .)
+    CLASS           reduce using rule 25 (relation_type -> SIMPLE .)
+    COMPONENT       reduce using rule 25 (relation_type -> SIMPLE .)
+    INTERFACE       reduce using rule 25 (relation_type -> SIMPLE .)
 
 
 state 21
+
+    (26) relation_type -> USES .
+
+    CASE            reduce using rule 26 (relation_type -> USES .)
+    ACTOR           reduce using rule 26 (relation_type -> USES .)
+    CLASS           reduce using rule 26 (relation_type -> USES .)
+    COMPONENT       reduce using rule 26 (relation_type -> USES .)
+    INTERFACE       reduce using rule 26 (relation_type -> USES .)
+
+
+state 22
+
+    (27) relation_type -> REALIZES .
+
+    CASE            reduce using rule 27 (relation_type -> REALIZES .)
+    ACTOR           reduce using rule 27 (relation_type -> REALIZES .)
+    CLASS           reduce using rule 27 (relation_type -> REALIZES .)
+    COMPONENT       reduce using rule 27 (relation_type -> REALIZES .)
+    INTERFACE       reduce using rule 27 (relation_type -> REALIZES .)
+
+
+state 23
+
+    (28) relation_type -> ASSOCIATES .
+
+    CASE            reduce using rule 28 (relation_type -> ASSOCIATES .)
+    ACTOR           reduce using rule 28 (relation_type -> ASSOCIATES .)
+    CLASS           reduce using rule 28 (relation_type -> ASSOCIATES .)
+    COMPONENT       reduce using rule 28 (relation_type -> ASSOCIATES .)
+    INTERFACE       reduce using rule 28 (relation_type -> ASSOCIATES .)
+
+
+state 24
+
+    (29) relation_type -> DEPENDS .
+
+    CASE            reduce using rule 29 (relation_type -> DEPENDS .)
+    ACTOR           reduce using rule 29 (relation_type -> DEPENDS .)
+    CLASS           reduce using rule 29 (relation_type -> DEPENDS .)
+    COMPONENT       reduce using rule 29 (relation_type -> DEPENDS .)
+    INTERFACE       reduce using rule 29 (relation_type -> DEPENDS .)
+
+
+state 25
+
+    (4) definition -> ACTORS EQUALS LBRACE actors . RBRACE
+    (6) actors -> actors . COMMA IDENTIFIER
+
+    RBRACE          shift and go to state 37
+    COMMA           shift and go to state 38
+
+
+state 26
 
     (7) actors -> IDENTIFIER .
 
@@ -284,16 +388,16 @@ state 21
     COMMA           reduce using rule 7 (actors -> IDENTIFIER .)
 
 
-state 22
+state 27
 
     (5) definition -> CASES EQUALS LBRACE cases . RBRACE
     (8) cases -> cases . COMMA IDENTIFIER
 
-    RBRACE          shift and go to state 35
-    COMMA           shift and go to state 36
+    RBRACE          shift and go to state 39
+    COMMA           shift and go to state 40
 
 
-state 23
+state 28
 
     (9) cases -> IDENTIFIER .
 
@@ -301,7 +405,7 @@ state 23
     COMMA           reduce using rule 9 (cases -> IDENTIFIER .)
 
 
-state 24
+state 29
 
     (11) relation_list -> relation_list relation .
 
@@ -309,66 +413,76 @@ state 24
     INCLUDE         reduce using rule 11 (relation_list -> relation_list relation .)
     INHERIT         reduce using rule 11 (relation_list -> relation_list relation .)
     SIMPLE          reduce using rule 11 (relation_list -> relation_list relation .)
+    USES            reduce using rule 11 (relation_list -> relation_list relation .)
+    REALIZES        reduce using rule 11 (relation_list -> relation_list relation .)
+    ASSOCIATES      reduce using rule 11 (relation_list -> relation_list relation .)
+    DEPENDS         reduce using rule 11 (relation_list -> relation_list relation .)
     $end            reduce using rule 11 (relation_list -> relation_list relation .)
-
-
-state 25
-
-    (13) relation -> EXTENDS CASE . IDENTIFIER CASE identifier_list SLASH GT
-
-    IDENTIFIER      shift and go to state 37
-
-
-state 26
-
-    (17) relation -> EXTENDS ACTOR . IDENTIFIER CASE identifier_list SLASH GT
-
-    IDENTIFIER      shift and go to state 38
-
-
-state 27
-
-    (14) relation -> INCLUDE CASE . IDENTIFIER CASE identifier_list SLASH GT
-
-    IDENTIFIER      shift and go to state 39
-
-
-state 28
-
-    (18) relation -> INCLUDE ACTOR . IDENTIFIER CASE identifier_list SLASH GT
-
-    IDENTIFIER      shift and go to state 40
-
-
-state 29
-
-    (15) relation -> INHERIT CASE . IDENTIFIER CASE identifier_list SLASH GT
-
-    IDENTIFIER      shift and go to state 41
 
 
 state 30
 
-    (19) relation -> INHERIT ACTOR . IDENTIFIER CASE identifier_list SLASH GT
+    (13) relation -> relation_type source . target_participants SLASH GT
+    (15) target_participants -> . target_participants element_type IDENTIFIER
+    (16) target_participants -> . element_type IDENTIFIER
+    (17) element_type -> . CASE
+    (18) element_type -> . ACTOR
+    (19) element_type -> . CLASS
+    (20) element_type -> . COMPONENT
+    (21) element_type -> . INTERFACE
 
-    IDENTIFIER      shift and go to state 42
+    CASE            shift and go to state 32
+    ACTOR           shift and go to state 33
+    CLASS           shift and go to state 34
+    COMPONENT       shift and go to state 35
+    INTERFACE       shift and go to state 36
 
+    target_participants            shift and go to state 41
+    element_type                   shift and go to state 42
 
 state 31
 
-    (16) relation -> SIMPLE CASE . IDENTIFIER CASE identifier_list SLASH GT
+    (14) source -> element_type . IDENTIFIER
 
     IDENTIFIER      shift and go to state 43
 
 
 state 32
 
-    (20) relation -> SIMPLE ACTOR . IDENTIFIER CASE identifier_list SLASH GT
+    (17) element_type -> CASE .
 
-    IDENTIFIER      shift and go to state 44
+    IDENTIFIER      reduce using rule 17 (element_type -> CASE .)
 
 
 state 33
+
+    (18) element_type -> ACTOR .
+
+    IDENTIFIER      reduce using rule 18 (element_type -> ACTOR .)
+
+
+state 34
+
+    (19) element_type -> CLASS .
+
+    IDENTIFIER      reduce using rule 19 (element_type -> CLASS .)
+
+
+state 35
+
+    (20) element_type -> COMPONENT .
+
+    IDENTIFIER      reduce using rule 20 (element_type -> COMPONENT .)
+
+
+state 36
+
+    (21) element_type -> INTERFACE .
+
+    IDENTIFIER      reduce using rule 21 (element_type -> INTERFACE .)
+
+
+state 37
 
     (4) definition -> ACTORS EQUALS LBRACE actors RBRACE .
 
@@ -377,14 +491,14 @@ state 33
     CASES           reduce using rule 4 (definition -> ACTORS EQUALS LBRACE actors RBRACE .)
 
 
-state 34
+state 38
 
     (6) actors -> actors COMMA . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 45
+    IDENTIFIER      shift and go to state 44
 
 
-state 35
+state 39
 
     (5) definition -> CASES EQUALS LBRACE cases RBRACE .
 
@@ -393,70 +507,51 @@ state 35
     CASES           reduce using rule 5 (definition -> CASES EQUALS LBRACE cases RBRACE .)
 
 
-state 36
+state 40
 
     (8) cases -> cases COMMA . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 46
-
-
-state 37
-
-    (13) relation -> EXTENDS CASE IDENTIFIER . CASE identifier_list SLASH GT
-
-    CASE            shift and go to state 47
-
-
-state 38
-
-    (17) relation -> EXTENDS ACTOR IDENTIFIER . CASE identifier_list SLASH GT
-
-    CASE            shift and go to state 48
-
-
-state 39
-
-    (14) relation -> INCLUDE CASE IDENTIFIER . CASE identifier_list SLASH GT
-
-    CASE            shift and go to state 49
-
-
-state 40
-
-    (18) relation -> INCLUDE ACTOR IDENTIFIER . CASE identifier_list SLASH GT
-
-    CASE            shift and go to state 50
+    IDENTIFIER      shift and go to state 45
 
 
 state 41
 
-    (15) relation -> INHERIT CASE IDENTIFIER . CASE identifier_list SLASH GT
+    (13) relation -> relation_type source target_participants . SLASH GT
+    (15) target_participants -> target_participants . element_type IDENTIFIER
+    (17) element_type -> . CASE
+    (18) element_type -> . ACTOR
+    (19) element_type -> . CLASS
+    (20) element_type -> . COMPONENT
+    (21) element_type -> . INTERFACE
 
-    CASE            shift and go to state 51
+    SLASH           shift and go to state 46
+    CASE            shift and go to state 32
+    ACTOR           shift and go to state 33
+    CLASS           shift and go to state 34
+    COMPONENT       shift and go to state 35
+    INTERFACE       shift and go to state 36
 
+    element_type                   shift and go to state 47
 
 state 42
 
-    (19) relation -> INHERIT ACTOR IDENTIFIER . CASE identifier_list SLASH GT
+    (16) target_participants -> element_type . IDENTIFIER
 
-    CASE            shift and go to state 52
+    IDENTIFIER      shift and go to state 48
 
 
 state 43
 
-    (16) relation -> SIMPLE CASE IDENTIFIER . CASE identifier_list SLASH GT
+    (14) source -> element_type IDENTIFIER .
 
-    CASE            shift and go to state 53
+    CASE            reduce using rule 14 (source -> element_type IDENTIFIER .)
+    ACTOR           reduce using rule 14 (source -> element_type IDENTIFIER .)
+    CLASS           reduce using rule 14 (source -> element_type IDENTIFIER .)
+    COMPONENT       reduce using rule 14 (source -> element_type IDENTIFIER .)
+    INTERFACE       reduce using rule 14 (source -> element_type IDENTIFIER .)
 
 
 state 44
-
-    (20) relation -> SIMPLE ACTOR IDENTIFIER . CASE identifier_list SLASH GT
-
-    CASE            shift and go to state 54
-
-
-state 45
 
     (6) actors -> actors COMMA IDENTIFIER .
 
@@ -464,7 +559,7 @@ state 45
     COMMA           reduce using rule 6 (actors -> actors COMMA IDENTIFIER .)
 
 
-state 46
+state 45
 
     (8) cases -> cases COMMA IDENTIFIER .
 
@@ -472,321 +567,55 @@ state 46
     COMMA           reduce using rule 8 (cases -> cases COMMA IDENTIFIER .)
 
 
+state 46
+
+    (13) relation -> relation_type source target_participants SLASH . GT
+
+    GT              shift and go to state 49
+
+
 state 47
 
-    (13) relation -> EXTENDS CASE IDENTIFIER CASE . identifier_list SLASH GT
-    (21) identifier_list -> . identifier_list COMMA IDENTIFIER
-    (22) identifier_list -> . IDENTIFIER
+    (15) target_participants -> target_participants element_type . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 55
+    IDENTIFIER      shift and go to state 50
 
-    identifier_list                shift and go to state 56
 
 state 48
 
-    (17) relation -> EXTENDS ACTOR IDENTIFIER CASE . identifier_list SLASH GT
-    (21) identifier_list -> . identifier_list COMMA IDENTIFIER
-    (22) identifier_list -> . IDENTIFIER
+    (16) target_participants -> element_type IDENTIFIER .
 
-    IDENTIFIER      shift and go to state 55
+    SLASH           reduce using rule 16 (target_participants -> element_type IDENTIFIER .)
+    CASE            reduce using rule 16 (target_participants -> element_type IDENTIFIER .)
+    ACTOR           reduce using rule 16 (target_participants -> element_type IDENTIFIER .)
+    CLASS           reduce using rule 16 (target_participants -> element_type IDENTIFIER .)
+    COMPONENT       reduce using rule 16 (target_participants -> element_type IDENTIFIER .)
+    INTERFACE       reduce using rule 16 (target_participants -> element_type IDENTIFIER .)
 
-    identifier_list                shift and go to state 57
 
 state 49
 
-    (14) relation -> INCLUDE CASE IDENTIFIER CASE . identifier_list SLASH GT
-    (21) identifier_list -> . identifier_list COMMA IDENTIFIER
-    (22) identifier_list -> . IDENTIFIER
+    (13) relation -> relation_type source target_participants SLASH GT .
 
-    IDENTIFIER      shift and go to state 55
+    EXTENDS         reduce using rule 13 (relation -> relation_type source target_participants SLASH GT .)
+    INCLUDE         reduce using rule 13 (relation -> relation_type source target_participants SLASH GT .)
+    INHERIT         reduce using rule 13 (relation -> relation_type source target_participants SLASH GT .)
+    SIMPLE          reduce using rule 13 (relation -> relation_type source target_participants SLASH GT .)
+    USES            reduce using rule 13 (relation -> relation_type source target_participants SLASH GT .)
+    REALIZES        reduce using rule 13 (relation -> relation_type source target_participants SLASH GT .)
+    ASSOCIATES      reduce using rule 13 (relation -> relation_type source target_participants SLASH GT .)
+    DEPENDS         reduce using rule 13 (relation -> relation_type source target_participants SLASH GT .)
+    $end            reduce using rule 13 (relation -> relation_type source target_participants SLASH GT .)
 
-    identifier_list                shift and go to state 58
 
 state 50
 
-    (18) relation -> INCLUDE ACTOR IDENTIFIER CASE . identifier_list SLASH GT
-    (21) identifier_list -> . identifier_list COMMA IDENTIFIER
-    (22) identifier_list -> . IDENTIFIER
-
-    IDENTIFIER      shift and go to state 55
-
-    identifier_list                shift and go to state 59
-
-state 51
-
-    (15) relation -> INHERIT CASE IDENTIFIER CASE . identifier_list SLASH GT
-    (21) identifier_list -> . identifier_list COMMA IDENTIFIER
-    (22) identifier_list -> . IDENTIFIER
-
-    IDENTIFIER      shift and go to state 55
-
-    identifier_list                shift and go to state 60
-
-state 52
-
-    (19) relation -> INHERIT ACTOR IDENTIFIER CASE . identifier_list SLASH GT
-    (21) identifier_list -> . identifier_list COMMA IDENTIFIER
-    (22) identifier_list -> . IDENTIFIER
-
-    IDENTIFIER      shift and go to state 55
-
-    identifier_list                shift and go to state 61
-
-state 53
-
-    (16) relation -> SIMPLE CASE IDENTIFIER CASE . identifier_list SLASH GT
-    (21) identifier_list -> . identifier_list COMMA IDENTIFIER
-    (22) identifier_list -> . IDENTIFIER
-
-    IDENTIFIER      shift and go to state 55
-
-    identifier_list                shift and go to state 62
-
-state 54
-
-    (20) relation -> SIMPLE ACTOR IDENTIFIER CASE . identifier_list SLASH GT
-    (21) identifier_list -> . identifier_list COMMA IDENTIFIER
-    (22) identifier_list -> . IDENTIFIER
-
-    IDENTIFIER      shift and go to state 55
-
-    identifier_list                shift and go to state 63
-
-state 55
-
-    (22) identifier_list -> IDENTIFIER .
-
-    SLASH           reduce using rule 22 (identifier_list -> IDENTIFIER .)
-    COMMA           reduce using rule 22 (identifier_list -> IDENTIFIER .)
-
-
-state 56
-
-    (13) relation -> EXTENDS CASE IDENTIFIER CASE identifier_list . SLASH GT
-    (21) identifier_list -> identifier_list . COMMA IDENTIFIER
-
-    SLASH           shift and go to state 64
-    COMMA           shift and go to state 65
-
-
-state 57
-
-    (17) relation -> EXTENDS ACTOR IDENTIFIER CASE identifier_list . SLASH GT
-    (21) identifier_list -> identifier_list . COMMA IDENTIFIER
-
-    SLASH           shift and go to state 66
-    COMMA           shift and go to state 65
-
-
-state 58
-
-    (14) relation -> INCLUDE CASE IDENTIFIER CASE identifier_list . SLASH GT
-    (21) identifier_list -> identifier_list . COMMA IDENTIFIER
-
-    SLASH           shift and go to state 67
-    COMMA           shift and go to state 65
-
-
-state 59
-
-    (18) relation -> INCLUDE ACTOR IDENTIFIER CASE identifier_list . SLASH GT
-    (21) identifier_list -> identifier_list . COMMA IDENTIFIER
-
-    SLASH           shift and go to state 68
-    COMMA           shift and go to state 65
-
-
-state 60
-
-    (15) relation -> INHERIT CASE IDENTIFIER CASE identifier_list . SLASH GT
-    (21) identifier_list -> identifier_list . COMMA IDENTIFIER
-
-    SLASH           shift and go to state 69
-    COMMA           shift and go to state 65
-
-
-state 61
-
-    (19) relation -> INHERIT ACTOR IDENTIFIER CASE identifier_list . SLASH GT
-    (21) identifier_list -> identifier_list . COMMA IDENTIFIER
-
-    SLASH           shift and go to state 70
-    COMMA           shift and go to state 65
-
-
-state 62
-
-    (16) relation -> SIMPLE CASE IDENTIFIER CASE identifier_list . SLASH GT
-    (21) identifier_list -> identifier_list . COMMA IDENTIFIER
-
-    SLASH           shift and go to state 71
-    COMMA           shift and go to state 65
-
-
-state 63
-
-    (20) relation -> SIMPLE ACTOR IDENTIFIER CASE identifier_list . SLASH GT
-    (21) identifier_list -> identifier_list . COMMA IDENTIFIER
-
-    SLASH           shift and go to state 72
-    COMMA           shift and go to state 65
-
-
-state 64
-
-    (13) relation -> EXTENDS CASE IDENTIFIER CASE identifier_list SLASH . GT
-
-    GT              shift and go to state 73
-
-
-state 65
-
-    (21) identifier_list -> identifier_list COMMA . IDENTIFIER
-
-    IDENTIFIER      shift and go to state 74
-
-
-state 66
-
-    (17) relation -> EXTENDS ACTOR IDENTIFIER CASE identifier_list SLASH . GT
-
-    GT              shift and go to state 75
-
-
-state 67
-
-    (14) relation -> INCLUDE CASE IDENTIFIER CASE identifier_list SLASH . GT
-
-    GT              shift and go to state 76
-
-
-state 68
-
-    (18) relation -> INCLUDE ACTOR IDENTIFIER CASE identifier_list SLASH . GT
-
-    GT              shift and go to state 77
-
-
-state 69
-
-    (15) relation -> INHERIT CASE IDENTIFIER CASE identifier_list SLASH . GT
-
-    GT              shift and go to state 78
-
-
-state 70
-
-    (19) relation -> INHERIT ACTOR IDENTIFIER CASE identifier_list SLASH . GT
-
-    GT              shift and go to state 79
-
-
-state 71
-
-    (16) relation -> SIMPLE CASE IDENTIFIER CASE identifier_list SLASH . GT
-
-    GT              shift and go to state 80
-
-
-state 72
-
-    (20) relation -> SIMPLE ACTOR IDENTIFIER CASE identifier_list SLASH . GT
-
-    GT              shift and go to state 81
-
-
-state 73
-
-    (13) relation -> EXTENDS CASE IDENTIFIER CASE identifier_list SLASH GT .
-
-    EXTENDS         reduce using rule 13 (relation -> EXTENDS CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    INCLUDE         reduce using rule 13 (relation -> EXTENDS CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    INHERIT         reduce using rule 13 (relation -> EXTENDS CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    SIMPLE          reduce using rule 13 (relation -> EXTENDS CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    $end            reduce using rule 13 (relation -> EXTENDS CASE IDENTIFIER CASE identifier_list SLASH GT .)
-
-
-state 74
-
-    (21) identifier_list -> identifier_list COMMA IDENTIFIER .
-
-    SLASH           reduce using rule 21 (identifier_list -> identifier_list COMMA IDENTIFIER .)
-    COMMA           reduce using rule 21 (identifier_list -> identifier_list COMMA IDENTIFIER .)
-
-
-state 75
-
-    (17) relation -> EXTENDS ACTOR IDENTIFIER CASE identifier_list SLASH GT .
-
-    EXTENDS         reduce using rule 17 (relation -> EXTENDS ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    INCLUDE         reduce using rule 17 (relation -> EXTENDS ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    INHERIT         reduce using rule 17 (relation -> EXTENDS ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    SIMPLE          reduce using rule 17 (relation -> EXTENDS ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    $end            reduce using rule 17 (relation -> EXTENDS ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-
-
-state 76
-
-    (14) relation -> INCLUDE CASE IDENTIFIER CASE identifier_list SLASH GT .
-
-    EXTENDS         reduce using rule 14 (relation -> INCLUDE CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    INCLUDE         reduce using rule 14 (relation -> INCLUDE CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    INHERIT         reduce using rule 14 (relation -> INCLUDE CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    SIMPLE          reduce using rule 14 (relation -> INCLUDE CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    $end            reduce using rule 14 (relation -> INCLUDE CASE IDENTIFIER CASE identifier_list SLASH GT .)
-
-
-state 77
-
-    (18) relation -> INCLUDE ACTOR IDENTIFIER CASE identifier_list SLASH GT .
-
-    EXTENDS         reduce using rule 18 (relation -> INCLUDE ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    INCLUDE         reduce using rule 18 (relation -> INCLUDE ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    INHERIT         reduce using rule 18 (relation -> INCLUDE ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    SIMPLE          reduce using rule 18 (relation -> INCLUDE ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    $end            reduce using rule 18 (relation -> INCLUDE ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-
-
-state 78
-
-    (15) relation -> INHERIT CASE IDENTIFIER CASE identifier_list SLASH GT .
-
-    EXTENDS         reduce using rule 15 (relation -> INHERIT CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    INCLUDE         reduce using rule 15 (relation -> INHERIT CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    INHERIT         reduce using rule 15 (relation -> INHERIT CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    SIMPLE          reduce using rule 15 (relation -> INHERIT CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    $end            reduce using rule 15 (relation -> INHERIT CASE IDENTIFIER CASE identifier_list SLASH GT .)
-
-
-state 79
-
-    (19) relation -> INHERIT ACTOR IDENTIFIER CASE identifier_list SLASH GT .
-
-    EXTENDS         reduce using rule 19 (relation -> INHERIT ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    INCLUDE         reduce using rule 19 (relation -> INHERIT ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    INHERIT         reduce using rule 19 (relation -> INHERIT ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    SIMPLE          reduce using rule 19 (relation -> INHERIT ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    $end            reduce using rule 19 (relation -> INHERIT ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-
-
-state 80
-
-    (16) relation -> SIMPLE CASE IDENTIFIER CASE identifier_list SLASH GT .
-
-    EXTENDS         reduce using rule 16 (relation -> SIMPLE CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    INCLUDE         reduce using rule 16 (relation -> SIMPLE CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    INHERIT         reduce using rule 16 (relation -> SIMPLE CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    SIMPLE          reduce using rule 16 (relation -> SIMPLE CASE IDENTIFIER CASE identifier_list SLASH GT .)
-    $end            reduce using rule 16 (relation -> SIMPLE CASE IDENTIFIER CASE identifier_list SLASH GT .)
-
-
-state 81
-
-    (20) relation -> SIMPLE ACTOR IDENTIFIER CASE identifier_list SLASH GT .
-
-    EXTENDS         reduce using rule 20 (relation -> SIMPLE ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    INCLUDE         reduce using rule 20 (relation -> SIMPLE ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    INHERIT         reduce using rule 20 (relation -> SIMPLE ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    SIMPLE          reduce using rule 20 (relation -> SIMPLE ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
-    $end            reduce using rule 20 (relation -> SIMPLE ACTOR IDENTIFIER CASE identifier_list SLASH GT .)
+    (15) target_participants -> target_participants element_type IDENTIFIER .
+
+    SLASH           reduce using rule 15 (target_participants -> target_participants element_type IDENTIFIER .)
+    CASE            reduce using rule 15 (target_participants -> target_participants element_type IDENTIFIER .)
+    ACTOR           reduce using rule 15 (target_participants -> target_participants element_type IDENTIFIER .)
+    CLASS           reduce using rule 15 (target_participants -> target_participants element_type IDENTIFIER .)
+    COMPONENT       reduce using rule 15 (target_participants -> target_participants element_type IDENTIFIER .)
+    INTERFACE       reduce using rule 15 (target_participants -> target_participants element_type IDENTIFIER .)
 
