@@ -142,33 +142,42 @@ parser = yacc.yacc()
 
 data = """
 actors = {
-    recepctionist
+    Receptionist,
+    Doctor,
+    Nurse,
+    BillingSpecialist
 }
 
 cases = {
-    SchedulePatientAppointment,
-    SchedulePatientHospitalAdmission,
-    PatientRegistration,
-    FileInsuranceFormsClaims,
-    FileMedicalReports,
-    PatientHospitalAdmission,
-    InpatientHospitalAdmission,
-    OutpatientHospitalAdmission,
-    BedAllotment
+    ScheduleAppointment,
+    RegisterPatient,
+    PerformCheckup,
+    PrescribeMedication,
+    ProcessPayment,
+    GenerateInvoice,
+    EmergencyAdmission,
+    RoutineExamination
 }
 
-<package> HospitalReception
-    <simple> <actor> recepctionist <case> SchedulePatientAppointment />
-    <simple> <actor> recepctionist <case> SchedulePatientHospitalAdmission />
-    <simple> <actor> recepctionist <case> PatientRegistration />
-    <simple> <actor> recepctionist <case> PatientHospitalAdmission />
-    <simple> <actor> recepctionist <case> FileInsuranceFormsClaims />
-    <simple> <actor> recepctionist <case> FileMedicalReports />
-    <extends> <case> PatientRegistration <case> SchedulePatientAppointment, SchedulePatientHospitalAdmission />
-    <include> <case> PatientHospitalAdmission <case> PatientRegistration />
-    <inherit> <case> OutpatientHospitalAdmission <case> PatientHospitalAdmission />
-    <inherit> <case> InpatientHospitalAdmission <case> PatientHospitalAdmission />
-    <include> <case> InpatientHospitalAdmission <case> BedAllotment />
+<package> HospitalManagementSystem
+    <simple> <actor> Receptionist <case> ScheduleAppointment />
+    <simple> <actor> Receptionist <case> RegisterPatient />
+    <simple> <actor> Doctor <case> PerformCheckup />
+    <simple> <actor> Doctor <case> PrescribeMedication />
+    <simple> <actor> Nurse <case> EmergencyAdmission />
+    <simple> <actor> BillingSpecialist <case> ProcessPayment />
+    
+    <extends> <case> EmergencyAdmission <case> RegisterPatient />
+    <extends> <case> RoutineExamination <case> PerformCheckup />
+    
+    <include> <case> PrescribeMedication <case> PerformCheckup />
+    <include> <case> GenerateInvoice <case> ProcessPayment />
+    
+    <inherit> <case> EmergencyAdmission <case> RoutineExamination />
+    <inherit> <case> GenerateInvoice <case> ProcessPayment />
+    
+    <extends> <case> RegisterPatient <case> ScheduleAppointment, ProcessPayment />
+    <include> <case> PerformCheckup <case> PrescribeMedication, RoutineExamination />
 """
 
 result = parser.parse(data)
